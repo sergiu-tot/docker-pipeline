@@ -1,5 +1,5 @@
-def gitRepo   = "https://github.com/pallets/flask.git"
-def gitBranch = "main"
+def gitRepo   = "https://github.com/sergiu-tot/docker-pipeline.git"
+def gitBranch = "add_jenkins_pipeline"
 def pythonImg = "python:3.12"
 
 pipeline {
