@@ -25,5 +25,14 @@ pipeline {
             }
         }
 
+        // clean old code
+        stage('Check docker') {
+            steps {
+                sh """
+                  docker run hello-world
+                """
+            }
+        }
+
     }
 }
