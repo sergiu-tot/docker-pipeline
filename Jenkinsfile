@@ -1,4 +1,5 @@
-def gitRepo = "git@github.com:sergiu-tot/docker-pipeline.git"
+def gitRepo   = "git@github.com:sergiu-tot/docker-pipeline.git"
+def gitBranch = "add_jenkins_pipeline"
 
 pipeline {
     agent any
@@ -19,7 +20,7 @@ pipeline {
             steps {
                 deleteDir()
                 checkout([$class: 'GitSCM', 
-                          branches: [[name: '*/main']], 
+                          branches: [[name: "*/${gitBranch}"]], 
                           userRemoteConfigs: [[url: "${gitRepo}"]]])
                 echo "Git cloned"
             }
