@@ -40,7 +40,7 @@ pipeline {
         stage('Run pytest inside docker') {
             steps {
                 sh """
-                docker run --rm -v ./flask-tutorial:/code python:test /bin/sh -c "cd /code && /usr/local/bin/pytest -p no:cacheprovider"
+                docker run --rm -v ./flask-tutorial:/code python:test /bin/sh -c "cd /code && /usr/local/bin/coverage run -m pytest"
                 """
             }
         }
