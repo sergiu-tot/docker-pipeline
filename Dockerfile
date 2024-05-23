@@ -1,3 +1,5 @@
 FROM python:3.12
 
-RUN ls -alh # cd flask-tutorial && pip install '.[test]'
+COPY flask-tutorial /tmp/
+
+RUN cd /tmp/flask-tutorial && pip install '.[test]' && rm -rf /tmp/flask-tutorial
