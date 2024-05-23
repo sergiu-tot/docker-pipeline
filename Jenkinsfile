@@ -1,5 +1,6 @@
-def gitRepo   = "https://github.com/sergiu-tot/docker-pipeline.git"
+def gitRepo   = "https://github.com/pallets/flask/tree/main/examples/tutorial"
 def gitBranch = "main"
+def pythonImg = "python:3.12"
 
 pipeline {
     agent any
@@ -26,11 +27,11 @@ pipeline {
             }
         }
 
-        // check that docker is running correctly
-        stage('Check docker') {
+        // build python image with our libraries
+        stage('Build python image') {
             steps {
                 sh """
-                  docker run hello-world
+                  docker build -t python:test .
                 """
             }
         }
