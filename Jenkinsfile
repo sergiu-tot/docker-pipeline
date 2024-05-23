@@ -1,6 +1,6 @@
 def gitRepo   = "https://github.com/sergiu-tot/docker-pipeline.git"
 def gitBranch = "add_jenkins_pipeline"
-def pythonImg = "python:3.12"
+def pythonImg = "python:3.10"
 
 pipeline {
     agent any
@@ -32,6 +32,15 @@ pipeline {
             steps {
                 sh """
                 docker build -t python:test ${WORKSPACE}
+                """
+            }
+        }
+
+        // run pytest
+        stage('Run pytest inside docker') {
+            steps {
+                sh """
+                docker run -v .:/code python:test /bin/sh -c "cd /code && /usr/local/bin/pytest"
                 """
             }
         }
