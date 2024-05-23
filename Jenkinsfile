@@ -37,10 +37,10 @@ pipeline {
         }
 
         // run pytest
-        stage('Run pytest inside docker') {
+        stage('Run parallel pytest inside docker') {
             steps {
                 sh """
-                docker run --rm -v ./flask-tutorial:/code python:test /bin/sh -c "cd /code && /usr/local/bin/pytest"
+                docker run --rm -v ./flask-tutorial:/code python:test /bin/sh -c "cd /code && /usr/local/bin/pytest -n 2"
                 """
             }
         }
