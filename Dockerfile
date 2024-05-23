@@ -1,6 +1,6 @@
 FROM python:3.12
 
-ADD flask-tutorial /tmp/
+ADD flask-tutorial /tmp/flask-tutorial/
 
 RUN find /tmp/
 
