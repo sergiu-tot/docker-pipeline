@@ -30,9 +30,11 @@ pipeline {
         // build python image with our libraries
         stage('Build python image') {
             steps {
-                sh """
-                  docker build -t python:test .
-                """
+                dir("${WORKSPACE}"){
+                    sh """
+                    docker build -t python:test .
+                    """
+                }
             }
         }
 
