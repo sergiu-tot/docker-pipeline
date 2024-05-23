@@ -1,4 +1,4 @@
-def gitRepo   = "https://github.com/pallets/flask/"
+def gitRepo   = "https://github.com/pallets/flask.git"
 def gitBranch = "main"
 def pythonImg = "python:3.12"
 
