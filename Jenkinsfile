@@ -1,5 +1,5 @@
-def gitRepo   = "git@github.com:sergiu-tot/docker-pipeline.git"
-def gitBranch = "add_jenkins_pipeline"
+def gitRepo   = "https://github.com/sergiu-tot/docker-pipeline.git"
+def gitBranch = "main"
 
 pipeline {
     agent any
@@ -26,7 +26,7 @@ pipeline {
             }
         }
 
-        // clean old code
+        // check that docker is running correctly
         stage('Check docker') {
             steps {
                 sh """
@@ -34,6 +34,7 @@ pipeline {
                 """
             }
         }
+
 
     }
 }
