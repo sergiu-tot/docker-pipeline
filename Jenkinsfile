@@ -44,7 +44,7 @@ pipeline {
                         sh returnStatus: true, script: """
                             docker run --rm --user=113:121 \
                             -v ./flask-tutorial:/code python:test \
-                            /bin/sh -c "coverage run -m pytest /code"
+                            /bin/sh -c "coverage run -m pytest /code --junit-xml=report.xml"
                             """
                     },
                     bandit: {
@@ -65,6 +65,11 @@ pipeline {
             }
         }
 
+        stage('Save pytest report') {
+            steps {
+                junit "flask-tutorial/report.xml"
+            }
+        }
 
     }
 }
