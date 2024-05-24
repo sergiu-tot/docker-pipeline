@@ -42,7 +42,7 @@ pipeline {
                 sh """
                 docker run --rm --user=113:121 \
                   -v ./flask-tutorial:/code python:test \
-                  /bin/sh -c "/usr/local/bin/coverage run -m pytest --cov-report=html:reports/html_dir --cov-report=xml:reports/coverage.xml /code "
+                  /bin/sh -c "cd /code && coverage run -m pytest /code && coverage html"
                 """
             }
         }
