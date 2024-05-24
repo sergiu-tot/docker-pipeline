@@ -67,7 +67,7 @@ pipeline {
 
         stage('Save pytest report') {
             steps {
-                junit "flask-tutorial/report.xml"
+                junit testResults: "flask-tutorial/report.xml", skipPublishingChecks: true
             }
         }
 
