@@ -3,13 +3,19 @@
 VAGRANT_HOST_DIR=/mnt/host_machine
 
 ########################
+# Pre-requisites
+########################
+echo "Installing pre-requisites"
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+
+########################
 # Jenkins & Java
 ########################
 echo "Installing Jenkins and Java"
-sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 5BA31D57EF5975CA
-sudo apt-get update > /dev/null 2>&1
-sudo apt-get -y install default-jdk jenkins > /dev/null 2>&1
+curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+sudo apt update > /dev/null 2>&1
+sudo apt -y install default-jdk jenkins > /dev/null 2>&1
 echo "Installing Jenkins default user and config"
 sudo mkdir -p /var/lib/jenkins/users/admin
 sudo cp $VAGRANT_HOST_DIR/JenkinsConfig/config.xml /var/lib/jenkins/
@@ -20,10 +26,10 @@ sudo chown -R jenkins:jenkins /var/lib/jenkins/users/
 # Docker
 ########################
 echo "Installing Docker"
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-sudo apt-get update
-sudo apt-get -y install docker-ce
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
+sudo apt -y install docker-ce
 sudo systemctl enable docker
 sudo usermod -aG docker ${USER}
 sudo usermod -aG docker jenkins
@@ -33,8 +39,8 @@ sudo usermod -aG docker ubuntu
 # nginx
 ########################
 echo "Installing nginx"
-sudo apt-get -y install nginx > /dev/null 2>&1
-sudo service nginx start
+sudo apt -y install nginx > /dev/null 2>&1
+sudo systemctl start nginx
 
 ########################
 # Configuring nginx
@@ -44,6 +50,6 @@ cd /etc/nginx/sites-available
 sudo rm default ../sites-enabled/default
 sudo cp /mnt/host_machine/VirtualHost/jenkins /etc/nginx/sites-available/
 sudo ln -s /etc/nginx/sites-available/jenkins /etc/nginx/sites-enabled/
-sudo service nginx restart
-sudo service jenkins restart
+sudo systemctl restart nginx
+sudo systemctl restart jenkins
 echo "Success"
