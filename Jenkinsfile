@@ -40,18 +40,25 @@ pipeline {
         stage('Run parallel tests') {
             steps {
                 parallel(
-                    a: {
+                    pytest: {
                         sh """
                             docker run --rm --user=113:121 \
                             -v ./flask-tutorial:/code python:test \
-                            /bin/sh -c "cd /code && coverage run -m pytest /code && coverage html"
+                            /bin/sh -c "coverage run -m pytest /code"
                             """
                     },
-                    b: {
+                    bandit: {
                         sh """
                             docker run --rm --user=113:121 \
                             -v ./flask-tutorial:/code python:test \
                             /bin/sh -c "bandit /code"
+                            """
+                    },
+                    pylint: {
+                        sh """
+                            docker run --rm --user=113:121 \
+                            -v ./flask-tutorial:/code python:test \
+                            /bin/sh -c "pylint /code/flaskr"
                             """
                     }
                 )
