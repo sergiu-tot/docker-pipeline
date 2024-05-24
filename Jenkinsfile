@@ -41,24 +41,24 @@ pipeline {
             steps {
                 parallel(
                     pytest: {
-                        sh """
+                        sh returnStatus: true, script: """
                             docker run --rm --user=113:121 \
                             -v ./flask-tutorial:/code python:test \
                             /bin/sh -c "coverage run -m pytest /code"
                             """
                     },
                     bandit: {
-                        sh """
+                        sh returnStatus: true, script: """
                             docker run --rm --user=113:121 \
                             -v ./flask-tutorial:/code python:test \
                             /bin/sh -c "bandit /code"
                             """
                     },
                     pylint: {
-                        sh """
+                        sh returnStatus: true, script: """
                             docker run --rm --user=113:121 \
                             -v ./flask-tutorial:/code python:test \
-                            /bin/sh -c "pylint /code/flaskr"
+                            /bin/sh -c "pylint /code --recursive"
                             """
                     }
                 )
