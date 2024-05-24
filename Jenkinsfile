@@ -58,7 +58,7 @@ pipeline {
                         sh returnStatus: true, script: """
                             docker run --rm --user=113:121 \
                             -v ./flask-tutorial:/code python:test \
-                            /bin/sh -c "pylint /code --recursive"
+                            /bin/sh -c "pylint /code/flaskr"
                             """
                     }
                 )
