@@ -39,24 +39,24 @@ pipeline {
         stage('Run the application') {
             steps {
                 sh """
-                    docker run                             \
-                    --rm                                 \
-                    --name=flaskr-init                   \
-                    --user=$(id -u):$(id -g)             \
-                    --volume=$(pwd)/flask-tutorial:/code \
-                    --entrypoint="/bin/sh"               \
-                    my-python:latest                     \
+                    docker run                            \
+                    --rm                                  \
+                    --name=flaskr-init                    \
+                    --user=\$(id -u):\$(id -g)            \
+                    --volume=\$(pwd)/flask-tutorial:/code \
+                    --entrypoint="/bin/sh"                \
+                    my-python:latest                      \
                     -c "flask --app flaskr init-db"
                 """
 
                 sh """
-                    docker run                             \
-                    --rm                                 \
-                    --detach                             \
-                    --name=flaskr                        \
-                    --user=$(id -u):$(id -g)             \
-                    --volume=$(pwd)/flask-tutorial:/code \
-                    --publish=5000:5000                  \
+                    docker run                            \
+                    --rm                                  \
+                    --detach                              \
+                    --name=flaskr                         \
+                    --user=\$(id -u):\$(id -g)            \
+                    --volume=\$(pwd)/flask-tutorial:/code \
+                    --publish=5000:5000                   \
                     my-python:latest
                 """
             }
