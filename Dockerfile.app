@@ -14,4 +14,4 @@ RUN pip3 install -r requirements.txt
 # configure the container to run in an executed manner
 ENTRYPOINT [ "flask" ]
 
-CMD [ "--app", "flaskr", "--host", "0.0.0.0", "run" ]
+CMD [ "--app", "flaskr", "run", "--host", "0.0.0.0" ]
