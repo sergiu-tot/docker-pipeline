@@ -1,5 +1,5 @@
 def gitRepo   = "https://github.com/sergiu-tot/docker-pipeline.git"
-def gitBranch = "add_jenkins_pipeline"
+def gitBranch = "main"
 
 pipeline {
     agent any
