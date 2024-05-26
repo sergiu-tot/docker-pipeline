@@ -129,7 +129,8 @@ pipeline {
     // record junit reports
     post {
         always {
-            archiveArtifacts artifacts: 'flask-tutorial/*.(txt|xml)', fingerprint: true
+            archiveArtifacts artifacts: 'flask-tutorial/*.txt', fingerprint: true
+            archiveArtifacts artifacts: 'flask-tutorial/*.xml', fingerprint: true
             junit testResults: "flask-tutorial/report.xml", skipPublishingChecks: true
         }
     }
