@@ -11,6 +11,9 @@ COPY ./flask-tutorial/requirements.txt /code/requirements.txt
 # install the dependencies and packages in the requirements file
 RUN pip3 install -r requirements.txt
 
+# initialize the db
+RUN flask --app flaskr init-db
+
 # configure the container to run in an executed manner
 ENTRYPOINT [ "flask" ]
 
