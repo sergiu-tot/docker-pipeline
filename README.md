@@ -13,3 +13,4 @@ vagrant plugin install vagrant-vbguest
 http://localhost:8080/
 
 Install suggested plugins
++ Blue Ocean, Pipeline Stage View
