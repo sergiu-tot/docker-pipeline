@@ -101,7 +101,7 @@ pipeline {
                                     my-python:latest                      \
                                     -c "pylint /code/flaskr | tee pylint.txt"
                             """
-                    }
+                    },
                     curl: {
                         sh returnStatus: true, script: """
                                 docker run                                \
