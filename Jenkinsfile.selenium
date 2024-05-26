@@ -30,7 +30,7 @@ pipeline {
         stage('Build python image') {
             steps {
                 sh """
-                docker build -t my-python:latest ${WORKSPACE}/Dockerfile.app .
+                docker build -t my-python:latest -f ${WORKSPACE}/Dockerfile.app .
                 """
             }
         }
