@@ -94,7 +94,7 @@ pipeline {
                         sh returnStatus: true, script: """
                                 docker run                                \
                                     --rm                                  \
-                                    --name=flaskr-pytest                  \
+                                    --name=flaskr-pylint                  \
                                     --user=\$(id -u):\$(id -g)            \
                                     --entrypoint="/bin/sh"                \
                                     --volume=\$(pwd)/flask-tutorial:/code \
