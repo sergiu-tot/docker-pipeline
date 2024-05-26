@@ -125,8 +125,9 @@ pipeline {
         }
 
         // record junit reports
-        stage('Save pytest report') {
-            steps {
+        post {
+            always {
+                archiveArtifacts artifacts: 'flask-tutorial/*.txt', fingerprint: true
                 junit testResults: "flask-tutorial/report.xml", skipPublishingChecks: true
             }
         }
