@@ -30,10 +30,56 @@ pipeline {
         stage('Build python image') {
             steps {
                 sh """
-                docker build -t my-python:latest -f ${WORKSPACE}/Dockerfile.app .
+                    docker build -t my-python:latest -f ${WORKSPACE}/Dockerfile.app .
                 """
             }
         }
+
+        // run the application
+        stage('Run the application') {
+            steps {
+                sh """
+                    docker run                             \
+                    --rm                                 \
+                    --name=flaskr-init                   \
+                    --user=$(id -u):$(id -g)             \
+                    --volume=$(pwd)/flask-tutorial:/code \
+                    --entrypoint="/bin/sh"               \
+                    my-python:latest                     \
+                    -c "flask --app flaskr init-db"
+                """
+
+                sh """
+                    docker run                             \
+                    --rm                                 \
+                    --detach                             \
+                    --name=flaskr                        \
+                    --user=$(id -u):$(id -g)             \
+                    --volume=$(pwd)/flask-tutorial:/code \
+                    --publish=5000:5000                  \
+                    my-python:latest
+                """
+            }
+        }
+
+        // run selenium
+        stage('Run selenium') {
+            steps {
+                sh """
+                    sleep 5 && echo Running selenium
+                """
+            }
+        }
+
+        // stop the application
+        stage('Stop the application') {
+            steps {
+                sh """
+                    docker stop flaskr
+                """
+            }
+        }
+
 
     }
 }
