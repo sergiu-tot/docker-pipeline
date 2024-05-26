@@ -75,7 +75,7 @@ pipeline {
                                     --entrypoint="/bin/sh"                \
                                     --volume=\$(pwd)/flask-tutorial:/code \
                                     my-python:latest                      \
-                                    -c "coverage run -m pytest --junit-xml=report.xml"
+                                    -c "coverage run -m pytest --junit-xml=report_pytest.xml"
                             """
                     },
                     bandit: {
@@ -87,7 +87,7 @@ pipeline {
                                     --entrypoint="/bin/sh"                \
                                     --volume=\$(pwd)/flask-tutorial:/code \
                                     my-python:latest                      \
-                                    -c "bandit -r /code/flaskr | tee bandit.txt"
+                                    -c "bandit -r /code/flaskr | tee report_bandit.txt"
                             """
                     },
                     pylint: {
@@ -99,7 +99,7 @@ pipeline {
                                     --entrypoint="/bin/sh"                \
                                     --volume=\$(pwd)/flask-tutorial:/code \
                                     my-python:latest                      \
-                                    -c "pylint /code/flaskr | tee pylint.txt"
+                                    -c "pylint /code/flaskr | tee report_pylint.txt"
                             """
                     },
                     curl: {
@@ -129,9 +129,8 @@ pipeline {
     // record junit reports
     post {
         always {
-            archiveArtifacts artifacts: 'flask-tutorial/*.txt', fingerprint: true
-            archiveArtifacts artifacts: 'flask-tutorial/*.xml', fingerprint: true
-            junit testResults: "flask-tutorial/report.xml", skipPublishingChecks: true
+            archiveArtifacts artifacts: 'flask-tutorial/report_*', fingerprint: true
+            junit testResults: "flask-tutorial/report_pytest.xml", skipPublishingChecks: true
         }
     }
 
